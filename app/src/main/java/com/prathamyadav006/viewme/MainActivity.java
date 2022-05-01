@@ -6,49 +6,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    Adapter adapter;
-    List<ModelClass> userList;
-    LinearLayoutManager linearManger;
+public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenuItemClickListener{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initdata();
-        initRecycler();
     }
 
-    private void initdata() {
-
-        userList = new ArrayList<>();
-
-        userList.add(new ModelClass(R.drawable.tiget,"Tiger"));
-        userList.add(new ModelClass(R.drawable.lion,"Lion"));
-        userList.add(new ModelClass(R.drawable.eagle,"Eagle"));
-        userList.add(new ModelClass(R.drawable.elephant,"Elephant"));
-        userList.add(new ModelClass(R.drawable.monkey,"Monkey"));
-        userList.add(new ModelClass(R.drawable.panda,"Panda"));
-        userList.add(new ModelClass(R.drawable.parrot,"Parrot"));
-        userList.add(new ModelClass(R.drawable.rabbit,"Rabbit"));
-        userList.add(new ModelClass(R.drawable.wolf,"Wolf"));
-
+    public void showPop(View v){
+        PopupMenu popupMenu = new PopupMenu(this,v);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.pop_menu);
+        popupMenu.show();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void initRecycler() {
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
 
-        recyclerView = findViewById(R.id.recyclerView);
-        linearManger = new LinearLayoutManager(this);
-        linearManger.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearManger);
-        adapter = new Adapter(userList,this);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        switch (menuItem.getItemId()){
+            case R.id.name:
+                Toast.makeText(this, "Name: Wolf", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.LifeSpan:
+                Toast.makeText(this, "Life Span: 16 years", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.dangerLevel:
+                Toast.makeText(this, "Danger LeveL: 7", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.foodClass:
+                Toast.makeText(this, "Food Class: Carnivore", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }
